@@ -1,14 +1,18 @@
-# Welcome to your Lovable project
+# Dashboardtestemvp
+
+Crie um dashboard profissional de data analysis, use a referência que estou te enviando, deixe uma area para mim colocar as apis para alimenta-lo, siga o prompt
 
 This project was built with [Lovable](https://lovable.dev).
 
+**Live app**: https://dashboardtestemvp.lovable.app
+
 ## Build with Lovable
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/394b5d76-4944-45f2-85ce-41c3873fbd47).
 
 - **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+- **Stay in sync**: every change made in Lovable is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
 ## Development
 
@@ -20,10 +24,3 @@ cd <repository-name>
 npm i
 npm run dev
 ```
-
-## Built with
-
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
