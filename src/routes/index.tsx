@@ -87,7 +87,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
     } catch { setCandles(mockCandles(symbol)); }
     try {
       if (cfg.newsApiKey) {
-        const r = await fetchNews({ data: { apiKey: cfg.newsApiKey, q: cfg.newsQuery || symbol } });
+        const r = await fetchNews({ data: { q: cfg.newsQuery || symbol } });
         if (r.articles.length) { setNews(r.articles); newsSrc = "newsapi"; } else newsSrc = `erro: ${r.error}`;
       } else setNews(MOCK_NEWS);
     } catch { newsSrc = "erro"; }

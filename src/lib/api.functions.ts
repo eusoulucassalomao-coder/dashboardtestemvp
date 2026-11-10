@@ -15,9 +15,11 @@ export const fetchYahoo = createServerFn({ method: "POST" })
   });
 
 export const fetchNews = createServerFn({ method: "POST" })
-  .inputValidator(z.object({ apiKey: z.string().min(10).max(100), q: z.string().min(1).max(100) }))
+  .inputValidator(z.object({ q: z.string().min(1).max(100) }))
   .handler(async ({ data }) => {
-    const res = await fetch(`https://newsapi.org/v2/everything?q=${encodeURIComponent(data.q)}&language=en&sortBy=publishedAt&pageSize=20`, { headers: { "X-Api-Key": data.apiKey, "User-Agent": "dashboard" } });
+    const apiKey = process.env.NEWS_API_KEY;
+    if (!apiKey) return { error: "API Key não configurada", articles: [] };
+    const res = await fetch(`https://newsapi.org/v2/everything?q=${encodeURIComponent(data.q)}&language=en&sortBy=publishedAt&pageSize=20`, { headers: { "X-Api-Key": apiKey, "User-Agent": "dashboard" } });
     const j: any = await res.json();
     if (!res.ok) return { error: j?.message ?? `NewsAPI ${res.status}`, articles: [] };
     return { error: null, articles: (j.articles ?? []).map((a: any) => ({ title: a.title ?? "", source: a.source?.name ?? "", url: a.url ?? "#", publishedAt: a.publishedAt ?? "" })) };
