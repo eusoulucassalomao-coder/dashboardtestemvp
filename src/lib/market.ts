@@ -33,7 +33,7 @@ export function ema(v: number[], p: number) { const k = 2 / (p + 1); const out: 
 export function rsi(v: number[], p = 14) {
   const out: (number | null)[] = [null]; let g = 0, l = 0;
   for (let i = 1; i < v.length; i++) {
-    const d = v[i] - v[i - 1]!; const up = Math.max(d, 0), dn = Math.max(-d, 0);
+    const d = v[i]! - v[i - 1]!; const up = Math.max(d, 0), dn = Math.max(-d, 0);
     if (i <= p) { g += up / p; l += dn / p; out.push(i === p ? 100 - 100 / (1 + g / (l || 1e-9)) : null); }
     else { g = (g * (p - 1) + up) / p; l = (l * (p - 1) + dn) / p; out.push(100 - 100 / (1 + g / (l || 1e-9))); }
   }
@@ -50,7 +50,7 @@ const NEG = new Set(["not", "no", "never", "without", "isn't", "don't", "doesn't
 export function sentiment(text: string) {
   const w = text.toLowerCase().replace(/[^a-z'\s]/g, " ").split(/\s+/).filter(Boolean);
   let s = 0;
-  w.forEach((t, i) => { const v = LEX[t]; if (v) s += NEG.has(w[i - 1]) ? -v * 0.74 : v; });
+  w.forEach((t, i) => { const v = LEX[t]; if (v) s += NEG.has(w[i - 1] ?? "") ? -v * 0.74 : v; });
   if (text.includes("!")) s *= 1.15;
   return +(s / Math.sqrt(s * s + 15)).toFixed(3);
 }
@@ -65,4 +65,4 @@ export const MOCK_NEWS: News[] = [
   "Microsoft cloud growth boosts profit outlook",
   "Oil prices slump on demand fear and tariff risk",
   "Amazon announces logistics innovation in Europe",
-].map((title, i) => ({ title, source: ["Reuters", "Bloomberg", "CNBC", "WSJ", "FT"][i % 5], url: "#", publishedAt: new Date(Date.now() - i * 3.6e6 * 2).toISOString() }));
+].map((title, i) => ({ title, source: ["Reuters", "Bloomberg", "CNBC", "WSJ", "FT"][i % 5]!, url: "#", publishedAt: new Date(Date.now() - i * 3.6e6 * 2).toISOString() }));
