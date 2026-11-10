@@ -249,14 +249,15 @@ function Wallet() {
 
 function ApiSettings({ cfg, onSave }: { cfg: ApiConfig; onSave: (c: ApiConfig) => void }) {
   const [c, setC] = useState(cfg); const [ok, setOk] = useState(false);
-  const field = (k: keyof ApiConfig, label: string, hint: string, type = "text") => (
+  const field = (k: keyof ApiConfig, label: string, hint: string, type = "text", placeholder = "") => (
     <label className="block space-y-1"><span className="text-sm font-medium">{label}</span>
-      <input type={type} value={String(c[k])} onChange={(e) => setC({ ...c, [k]: type === "number" ? Number(e.target.value) : e.target.value })} className="w-full rounded-md border bg-input/40 px-3 py-2 text-sm outline-none focus:border-primary" />
+      <input type={type} placeholder={placeholder} value={String(c[k] ?? "")} onChange={(e) => setC({ ...c, [k]: type === "number" ? Number(e.target.value) : e.target.value })} className="w-full rounded-md border bg-input/40 px-3 py-2 text-sm outline-none focus:border-primary" />
       <span className="block text-xs text-muted-foreground">{hint}</span></label>);
   return (
     <Panel title="Conexões de API" className="max-w-2xl">
       <div className="space-y-5">
-        {field("newsApiKey", "Chave NewsAPI", "Pegue grátis em newsapi.org. Vazio = notícias de exemplo.", "password")}
+        {field("newsApiKey", "Chave NewsAPI", "Pegue grátis em newsapi.org. Vazio = notícias de exemplo.", "password", "Cole sua chave NewsAPI")}
+        {field("alphaVantageKey", "Chave Alpha Vantage", "Pegue grátis em alphavantage.co. Usada para dados técnicos diários complementares.", "password", "Cole sua chave Alpha Vantage")}
         {field("newsQuery", "Busca de notícias", "Termo para o NewsAPI. Vazio = usa o ticker selecionado.")}
         {field("priceUrl", "URL de preços personalizada (opcional)", "Vazio = Yahoo Finance. Use {symbol} na URL; deve retornar [{t,o,h,l,c,v}].")}
         {field("refreshSec", "Atualização automática (segundos)", "Mínimo 15s.", "number")}

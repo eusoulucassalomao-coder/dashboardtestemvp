@@ -1,8 +1,8 @@
 export type Candle = { t: number; o: number; h: number; l: number; c: number; v: number };
 export type News = { title: string; source: string; url: string; publishedAt: string; score?: number };
-export type ApiConfig = { priceUrl: string; newsApiKey: string; newsQuery: string; refreshSec: number };
+export type ApiConfig = { priceUrl: string; newsApiKey: string; alphaVantageKey: string; newsQuery: string; refreshSec: number };
 
-export const DEFAULT_CONFIG: ApiConfig = { priceUrl: "", newsApiKey: "", newsQuery: "", refreshSec: 60 };
+export const DEFAULT_CONFIG: ApiConfig = { priceUrl: "", newsApiKey: "", alphaVantageKey: "", newsQuery: "", refreshSec: 60 };
 const CFG_KEY = "dash_api_config";
 export const loadConfig = (): ApiConfig => {
   try { return { ...DEFAULT_CONFIG, ...JSON.parse(localStorage.getItem(CFG_KEY) || "{}") }; } catch { return DEFAULT_CONFIG; }
