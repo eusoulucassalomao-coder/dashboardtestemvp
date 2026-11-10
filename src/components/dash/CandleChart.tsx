@@ -12,7 +12,7 @@ export function CandleChart({ data, height = 380 }: { data: Candle[]; height?: n
   const x = (i: number) => i * step + step / 2;
   const closes = data.map((d) => d.c);
   const line = (arr: (number | null)[]) => arr.map((v, i) => (v == null ? "" : `${arr[i - 1] == null ? "M" : "L"}${x(i)},${y(v)}`)).join("");
-  const last = data[data.length - 1];
+  const last = data[data.length - 1]!;
   const h = hover != null ? data[hover] : null;
   return (
     <div className="relative">

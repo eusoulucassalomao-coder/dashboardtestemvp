@@ -97,7 +97,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
 
   const scored = useMemo(() => news.map((n) => ({ ...n, score: sentiment(n.title) })), [news]);
   const avgSent = scored.reduce((a, b) => a + b.score, 0) / (scored.length || 1);
-  const last = candles[candles.length - 1], prev = candles[candles.length - 2] ?? last;
+  const last = candles[candles.length - 1]!, prev = candles[candles.length - 2] ?? last;
   const chg = ((last.c - prev.c) / prev.c) * 100;
   const closes = candles.map((c) => c.c);
   const rsiV = rsi(closes), mac = macd(closes);
@@ -163,7 +163,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
                 <ResponsiveContainer width="100%" height={160}><LineChart data={ind}><YAxis domain={[0, 100]} hide /><ReferenceLine y={70} stroke="var(--bear)" strokeDasharray="3 3" /><ReferenceLine y={30} stroke="var(--bull)" strokeDasharray="3 3" /><Line dataKey="rsi" stroke="var(--cyan)" dot={false} strokeWidth={2} /></LineChart></ResponsiveContainer>
               </Panel>
               <Panel title="MACD (12, 26, 9)">
-                <ResponsiveContainer width="100%" height={160}><BarChart data={ind}><YAxis hide /><Bar dataKey="hist">{ind.map((d, i) => <Cell key={i} fill={d.hist >= 0 ? "var(--bull)" : "var(--bear)"} />)}</Bar></BarChart></ResponsiveContainer>
+                <ResponsiveContainer width="100%" height={160}><BarChart data={ind}><YAxis hide /><Bar dataKey="hist">{ind.map((d, i) => <Cell key={i} fill={(d.hist ?? 0) >= 0 ? "var(--bull)" : "var(--bear)"} />)}</Bar></BarChart></ResponsiveContainer>
               </Panel>
             </div>
             <Panel title="Dados OHLCV">

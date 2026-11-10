@@ -20,26 +20,26 @@ export function mockCandles(symbol: string, last = 348.04, n = 90): Candle[] {
     out.push({ t: start + i * day, o, c, h: Math.max(o, c) * (1 + r() * 0.012), l: Math.min(o, c) * (1 - r() * 0.012), v: Math.round(4e7 + r() * 6e7) });
     p = c;
   }
-  const k = last / out[n - 1].c;
+  const k = last / out[n - 1]!.c;
   const fixed = out.map((x) => ({ ...x, o: x.o * k, h: x.h * k, l: x.l * k, c: x.c * k }));
   // last day -0.76%
-  const prev = fixed[n - 2].c; fixed[n - 1].c = prev * (1 - 0.0076); fixed[n - 1].o = prev;
-  fixed[n - 1].h = Math.max(fixed[n - 1].h, prev); fixed[n - 1].l = Math.min(fixed[n - 1].l, fixed[n - 1].c);
+  const prev = fixed[n - 2]!.c; fixed[n - 1]!.c = prev * (1 - 0.0076); fixed[n - 1]!.o = prev;
+  fixed[n - 1]!.h = Math.max(fixed[n - 1]!.h, prev); fixed[n - 1]!.l = Math.min(fixed[n - 1]!.l, fixed[n - 1]!.c);
   return fixed;
 }
 
 export const sma = (v: number[], p: number) => v.map((_, i) => (i < p - 1 ? null : v.slice(i - p + 1, i + 1).reduce((a, b) => a + b, 0) / p));
-export function ema(v: number[], p: number) { const k = 2 / (p + 1); const out: number[] = []; v.forEach((x, i) => out.push(i ? x * k + out[i - 1] * (1 - k) : x)); return out; }
+export function ema(v: number[], p: number) { const k = 2 / (p + 1); const out: number[] = []; v.forEach((x, i) => out.push(i ? x * k + out[i - 1]! * (1 - k) : x)); return out; }
 export function rsi(v: number[], p = 14) {
   const out: (number | null)[] = [null]; let g = 0, l = 0;
   for (let i = 1; i < v.length; i++) {
-    const d = v[i] - v[i - 1]; const up = Math.max(d, 0), dn = Math.max(-d, 0);
+    const d = v[i] - v[i - 1]!; const up = Math.max(d, 0), dn = Math.max(-d, 0);
     if (i <= p) { g += up / p; l += dn / p; out.push(i === p ? 100 - 100 / (1 + g / (l || 1e-9)) : null); }
     else { g = (g * (p - 1) + up) / p; l = (l * (p - 1) + dn) / p; out.push(100 - 100 / (1 + g / (l || 1e-9))); }
   }
   return out;
 }
-export function macd(v: number[]) { const m = ema(v, 12).map((x, i) => x - ema(v, 26)[i]); const s = ema(m, 9); return m.map((x, i) => ({ macd: x, signal: s[i], hist: x - s[i] })); }
+export function macd(v: number[]) { const m = ema(v, 12).map((x, i) => x - ema(v, 26)[i]!); const s = ema(m, 9); return m.map((x, i) => ({ macd: x, signal: s[i]!, hist: x - s[i]! })); }
 
 // Lightweight VADER-style lexicon sentiment (compound score -1..1)
 const LEX: Record<string, number> = {
